@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['docs/**', 'infra/**', '**/*.md']
+  pull_request:
+    paths-ignore: ['docs/**', 'infra/**', '**/*.md']
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - uses: oven-sh/setup-bun@v2
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - run: bun build apps/server/src/index.ts --target bun --outfile deploy/server/index.js
+        if: github.ref == 'refs/heads/main'
+      - run: mkdir -p deploy && cp -r apps/web/dist deploy/web
+        if: github.ref == 'refs/heads/main'
+      - uses: actions/upload-artifact@v4
+        if: github.ref == 'refs/heads/main'
+        with: { name: release, path: deploy, retention-days: 1 }
+
+  deploy:
+    needs: check
+    if: github.ref == 'refs/heads/main' && vars.DEPLOY_HOST != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: production
+    concurrency: { group: deploy, cancel-in-progress: false }
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: release, path: deploy }
+      - name: Add SSH key
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ vars.DEPLOY_HOST }} ${{ vars.DEPLOY_HOST_KEY }}" > ~/.ssh/known_hosts
+      - name: Ship and restart
+        env:
+          HOST: groupshot@${{ vars.DEPLOY_HOST }}
+          SERVER_ENV: ${{ secrets.SERVER_ENV }}
+        run: |
+          rsync -az --delete deploy/web/ "$HOST:/opt/groupshot/web/"
+          rsync -az deploy/server/ "$HOST:/opt/groupshot/server/"
+          printf '%s\n' "$SERVER_ENV" | ssh "$HOST" 'umask 077 && cat > /opt/groupshot/.env'
+          ssh "$HOST" 'sudo systemctl restart groupshot'
+      - name: Check the new server answers
+        if: vars.DEPLOY_URL != ''
+        run: |
+          for i in 1 2 3 4 5 6; do
+            sleep 5
+            if curl -fsS --max-time 10 "${{ vars.DEPLOY_URL }}/api/health"; then exit 0; fi
+          done
+          echo "::error::health check failed after deploy"; exit 1

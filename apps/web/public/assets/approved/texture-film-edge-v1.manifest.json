@@ -1,0 +1,69 @@
+{
+  "id": "texture-film-edge",
+  "version": "v1",
+  "kind": "texture",
+  "width": 1024,
+  "height": 1024,
+  "maxBytes": 250000,
+  "formats": [
+    "webp"
+  ],
+  "transparent": false,
+  "maxFrames": 1,
+  "maxDurationMs": 0,
+  "publicVisual": false,
+  "licenseRef": "docs/assets/y2k-pack-provenance.md",
+  "licenseReviewed": true,
+  "sourcePath": "tools/assets/quarantine/texture-film-edge-v1.webp",
+  "runtimePath": "/assets/approved/texture-film-edge-v1.webp",
+  "sourceHash": "a1f67645889a568ca54e8a9557bc71ca6cc8b09afbb148c21135f5c1be37b260",
+  "provider": "local-authoring",
+  "model": "groupshot-core-textures-v1",
+  "provenance": {
+    "provider": "local-authoring",
+    "model": "groupshot-core-textures-v1",
+    "providerRequestId": "local-2026-10-20",
+    "prompt": "Procedural unbranded near-black film leader with sprocket rows. Brief: docs/assets/asset-briefs/2026-10-core-system.md. Source: tools/generate-core-textures.ts.",
+    "referenceHashes": [],
+    "accessDate": "2026-10-20",
+    "sourceHash": "a1f67645889a568ca54e8a9557bc71ca6cc8b09afbb148c21135f5c1be37b260",
+    "toolVersions": {
+      "generator": "groupshot-core-textures-v1",
+      "bun": "1.3.13",
+      "sharp": "0.35.5",
+      "vips": "8.18.7"
+    }
+  },
+  "status": "approved",
+  "outputs": [
+    {
+      "path": "tools/assets/quarantine/texture-film-edge-v1-processed/texture-film-edge-v1.webp",
+      "hash": "2cf8db5e9385d9f416b69b419373f3796244876292297731c33e795c4f2b550b",
+      "bytes": 11508,
+      "format": "webp"
+    },
+    {
+      "path": "tools/assets/quarantine/texture-film-edge-v1-processed/texture-film-edge-v1.avif",
+      "hash": "b54d8fce6ae89dd4e72f4ab5706cceda404820178138e8cc4722fba342906f08",
+      "bytes": 5043,
+      "format": "avif"
+    }
+  ],
+  "review": {
+    "reviewer": "lildibbb",
+    "human": true,
+    "decision": "approved",
+    "reviewedAt": "2026-10-20T11:51:27.258Z",
+    "sourceHash": "a1f67645889a568ca54e8a9557bc71ca6cc8b09afbb148c21135f5c1be37b260",
+    "outputHashes": {
+      "tools/assets/quarantine/texture-film-edge-v1-processed/texture-film-edge-v1.webp": "2cf8db5e9385d9f416b69b419373f3796244876292297731c33e795c4f2b550b",
+      "tools/assets/quarantine/texture-film-edge-v1-processed/texture-film-edge-v1.avif": "b54d8fce6ae89dd4e72f4ab5706cceda404820178138e8cc4722fba342906f08"
+    },
+    "licenseRef": "docs/assets/y2k-pack-provenance.md",
+    "licenseApproved": true,
+    "notes": "Approved by the project owner in the Claude Code session on 2026-10-20 (\"i approve all\"). Agent visual inspection of the review sheet preceded approval.",
+    "screenshots": [
+      "tools/assets/review/core-textures-1x.png"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+node_modules
+dist
+.env
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+**/*api-key*
+tools/assets/quarantine/*
+!tools/assets/quarantine/.gitkeep
+tools/assets/review/*
+!tools/assets/review/.gitkeep
+apps/server/data/
+reports/
+.claude/settings.local.json

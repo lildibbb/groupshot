@@ -1,0 +1,77 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+packages: [rsync, unzip, sqlite3, rclone, debian-keyring, debian-archive-keyring, apt-transport-https, curl, gpg, unattended-upgrades]
+
+users:
+  - default
+  - name: groupshot
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ${deploy_key}
+
+write_files:
+  - path: /etc/caddy/Caddyfile
+    permissions: "0644"
+    content: |
+      ${indent(6, caddyfile)}
+  - path: /etc/systemd/system/groupshot.service
+    permissions: "0644"
+    content: |
+      ${indent(6, service_unit)}
+  - path: /etc/systemd/system/caddy.service.d/env.conf
+    permissions: "0644"
+    content: |
+      [Service]
+      Environment=DOMAIN=${domain}
+  - path: /usr/local/bin/groupshot-backup
+    permissions: "0755"
+    content: |
+      ${indent(6, backup_script)}
+  - path: /etc/systemd/system/groupshot-backup.service
+    permissions: "0644"
+    content: |
+      [Unit]
+      Description=Back up the Groupshot database to R2
+      [Service]
+      Type=oneshot
+      User=groupshot
+      ExecStart=/usr/local/bin/groupshot-backup
+  - path: /etc/systemd/system/groupshot-backup.timer
+    permissions: "0644"
+    content: |
+      [Unit]
+      Description=Nightly Groupshot backup
+      [Timer]
+      OnCalendar=*-*-* 19:30:00
+      Persistent=true
+      [Install]
+      WantedBy=timers.target
+  - path: /etc/sudoers.d/groupshot
+    permissions: "0440"
+    content: |
+      groupshot ALL=(root) NOPASSWD: /usr/bin/systemctl restart groupshot
+  - path: /etc/ssh/sshd_config.d/10-hardening.conf
+    permissions: "0644"
+    content: |
+      PermitRootLogin no
+      PasswordAuthentication no
+  - path: /etc/sysctl.d/90-groupshot.conf
+    permissions: "0644"
+    content: |
+      vm.swappiness=10
+
+runcmd:
+  - mkdir -p /opt/groupshot/web /opt/groupshot/server /var/lib/groupshot
+  - chown -R groupshot:groupshot /opt/groupshot /var/lib/groupshot
+  - fallocate -l 1G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile && echo '/swapfile none swap sw 0 0' >> /etc/fstab
+  - sysctl --system
+  - curl -fsSL https://bun.sh/install | BUN_INSTALL=/usr/local bash
+  - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+  - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' -o /etc/apt/sources.list.d/caddy-stable.list
+  - apt-get update && apt-get install -y caddy
+  - systemctl daemon-reload
+  - systemctl restart ssh caddy
+  - systemctl enable groupshot groupshot-backup.timer
+  - systemctl start groupshot-backup.timer

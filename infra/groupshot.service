@@ -1,0 +1,23 @@
+[Unit]
+Description=Groupshot server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=groupshot
+WorkingDirectory=/opt/groupshot
+EnvironmentFile=/opt/groupshot/.env
+Environment=PORT=8787 HOST=127.0.0.1 TRUST_PROXY=1 WEB_DIST=/opt/groupshot/web DATA_DIR=/var/lib/groupshot
+ExecStart=/usr/local/bin/bun /opt/groupshot/server/index.js
+Restart=always
+RestartSec=2
+MemoryHigh=700M
+MemoryMax=850M
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/groupshot
+
+[Install]
+WantedBy=multi-user.target

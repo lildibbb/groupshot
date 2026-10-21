@@ -1,0 +1,5 @@
+azure_subscription_id = "00000000-0000-0000-0000-000000000000"
+cloudflare_account_id = ""
+zone_name             = "example.com"
+subdomain             = "groupshot"
+deploy_public_key     = "ssh-ed25519 AAAA... groupshot-deploy"

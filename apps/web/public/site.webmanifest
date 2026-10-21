@@ -1,0 +1,12 @@
+{
+  "name": "Groupshot",
+  "short_name": "Groupshot",
+  "description": "Same frame, different places. A browser photo booth.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#0f3b2e",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

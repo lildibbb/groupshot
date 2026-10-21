@@ -1,0 +1,69 @@
+{
+  "id": "texture-thermal-paper",
+  "version": "v1",
+  "kind": "texture",
+  "width": 1024,
+  "height": 1024,
+  "maxBytes": 250000,
+  "formats": [
+    "webp"
+  ],
+  "transparent": false,
+  "maxFrames": 1,
+  "maxDurationMs": 0,
+  "publicVisual": false,
+  "licenseRef": "docs/assets/y2k-pack-provenance.md",
+  "licenseReviewed": true,
+  "sourcePath": "tools/assets/quarantine/texture-thermal-paper-v1.webp",
+  "runtimePath": "/assets/approved/texture-thermal-paper-v1.webp",
+  "sourceHash": "8a7201f4ce278c64dee47501f00d5a34c5a2e4f55f3f7484476b931838505748",
+  "provider": "local-authoring",
+  "model": "groupshot-core-textures-v1",
+  "provenance": {
+    "provider": "local-authoring",
+    "model": "groupshot-core-textures-v1",
+    "providerRequestId": "local-2026-10-20",
+    "prompt": "Procedural pearl thermal paper with seeded fibers and feed grain. Brief: docs/assets/asset-briefs/2026-10-core-system.md. Source: tools/generate-core-textures.ts.",
+    "referenceHashes": [],
+    "accessDate": "2026-10-20",
+    "sourceHash": "8a7201f4ce278c64dee47501f00d5a34c5a2e4f55f3f7484476b931838505748",
+    "toolVersions": {
+      "generator": "groupshot-core-textures-v1",
+      "bun": "1.3.13",
+      "sharp": "0.35.5",
+      "vips": "8.18.7"
+    }
+  },
+  "status": "approved",
+  "outputs": [
+    {
+      "path": "tools/assets/quarantine/texture-thermal-paper-v1-processed/texture-thermal-paper-v1.webp",
+      "hash": "6a19e2efd083633422b50852e9c96dc314451b90df8689dc783364ca56c96e21",
+      "bytes": 13354,
+      "format": "webp"
+    },
+    {
+      "path": "tools/assets/quarantine/texture-thermal-paper-v1-processed/texture-thermal-paper-v1.avif",
+      "hash": "6c78694505b710609dbea1c8b5db63ca55228047e610aecbebedf7bfc2561617",
+      "bytes": 5504,
+      "format": "avif"
+    }
+  ],
+  "review": {
+    "reviewer": "lildibbb",
+    "human": true,
+    "decision": "approved",
+    "reviewedAt": "2026-10-20T11:51:27.258Z",
+    "sourceHash": "8a7201f4ce278c64dee47501f00d5a34c5a2e4f55f3f7484476b931838505748",
+    "outputHashes": {
+      "tools/assets/quarantine/texture-thermal-paper-v1-processed/texture-thermal-paper-v1.webp": "6a19e2efd083633422b50852e9c96dc314451b90df8689dc783364ca56c96e21",
+      "tools/assets/quarantine/texture-thermal-paper-v1-processed/texture-thermal-paper-v1.avif": "6c78694505b710609dbea1c8b5db63ca55228047e610aecbebedf7bfc2561617"
+    },
+    "licenseRef": "docs/assets/y2k-pack-provenance.md",
+    "licenseApproved": true,
+    "notes": "Approved by the project owner in the Claude Code session on 2026-10-20 (\"i approve all\"). Agent visual inspection of the review sheet preceded approval.",
+    "screenshots": [
+      "tools/assets/review/core-textures-1x.png"
+    ]
+  }
+}
